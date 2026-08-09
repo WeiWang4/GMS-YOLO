@@ -71,7 +71,7 @@ Full results are in [results/RESULTS.md](results/RESULTS.md).
 
 | Model | Precision | Recall | mAP50 | mAP50-95 | GFLOPs | Params/M | FPS |
 |-------|-----------|--------|-------|----------|--------|----------|-----|
-| **GMS-YOLO** | 0.942 | 0.870 | 0.934 | **0.64** | 5.8 | 2.44 | 249.3 |
+| **GMS-YOLO** | 0.942 | 0.870 | 0.934 | 0.64 | 5.8 | 2.44 | 249.3 |
 
 Evaluation on the maize tassel test set (single class), imgsz=640.
 FPS measured on RTX 3060, batch=1.
