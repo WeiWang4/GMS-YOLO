@@ -69,18 +69,12 @@ python scripts/benchmark.py --weights runs/detect/xxx/weights/best.pt
 
 Full results are in [results/RESULTS.md](results/RESULTS.md).
 
-| Metric | Value (mean of 3 runs) |
-|--------|------------------------|
-| Precision | 0.878 |
-| Recall | 0.840 |
-| mAP50 | 0.894 |
-| **mAP50-95** | **0.528 (std 0.004)** |
-| Parameters | 2.42 M |
-| GFLOPs (640x640) | 2.86 |
-| FPS (RTX 3060, batch=1) | 93.9 |
+| Model | Precision | Recall | mAP50 | mAP50-95 | GFLOPs | Params/M | FPS |
+|-------|-----------|--------|-------|----------|--------|----------|-----|
+| **GMS-YOLO** | 0.942 | 0.870 | 0.934 | **0.64** | 5.8 | 2.44 | 249.3 |
 
-All models were trained from scratch for 300 epochs on the same dataset
-(single-class maize tassel, 1466 training images), imgsz=640.
+Evaluation on the maize tassel test set (single class), imgsz=640.
+FPS measured on RTX 3060, batch=1.
 
 ## Dataset
 
