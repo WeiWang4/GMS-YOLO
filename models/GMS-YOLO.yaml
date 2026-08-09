@@ -1,0 +1,46 @@
+# Ultralytics YOLO11n-Ghost-C2GAM-MSECA 🚀
+# Lightweight modification: GhostNetV3 Backbone + C2GAM + MSECA Head
+
+nc: 1
+scales:
+  n: [0.50, 0.25, 1024]
+
+backbone:
+  - [-1, 1, Conv, [64, 3, 2]]    # 0-P1/2
+  - [-1, 1, GhostConv, [128, 3, 2]]   # 1-P2/4
+  - [-1, 1, C3GhostV3, [128, 1]]        # 2
+  - [-1, 1, GhostConv, [256, 3, 2]]   # 3-P3/8
+  - [-1, 1, C3GhostV3, [256, 1]]        # 4
+  - [-1, 1, GhostConv, [512, 3, 2]]   # 5-P4/16
+  - [-1, 1, C3GhostV3, [512, 1]]        # 6
+  - [-1, 1, GhostConv, [1024, 3, 2]]  # 7-P5/32
+  - [-1, 1, C3GhostV3, [1024, 1]]       # 8
+  - [-1, 1, SPPF, [1024, 5]]          # 9
+  - [-1, 1, C2GAM, [1024]]            # 10 (C2GAM)
+
+head:
+  # --- P4 Fusion ---
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 6], 1, Concat, [1]]
+  - [-1, 1, MSECA, [512]]             # 13: MSECA (channels = concat output total)
+  - [-1, 1, C3GhostV3, [512, 1]]        # 14
+
+  # --- P3 Fusion ---
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 4], 1, Concat, [1]]
+  - [-1, 1, MSECA, [256]]             # 17: MSECA
+  - [-1, 1, C3GhostV3, [256, 1]]        # 18
+
+  # --- P4 Downsample Fusion ---
+  - [-1, 1, GhostConv, [256, 3, 2]]
+  - [[-1, 14], 1, Concat, [1]]        # layer 14 (C3GhostV3)
+  - [-1, 1, MSECA, [512]]             # 21: MSECA
+  - [-1, 1, C3GhostV3, [512, 1]]        # 22
+
+  # --- P5 Downsample Fusion ---
+  - [-1, 1, GhostConv, [512, 3, 2]]
+  - [[-1, 10], 1, Concat, [1]]
+  - [-1, 1, MSECA, [1024]]            # 25: MSECA
+  - [-1, 1, C3GhostV3, [1024, 1]]       # 26
+
+  - [[18, 22, 26], 1, Detect, [nc]]   # Detect (note the layer indices)

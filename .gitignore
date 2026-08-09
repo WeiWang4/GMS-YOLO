@@ -1,0 +1,23 @@
+# Training artifacts
+runs/
+results/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+gh_auth_output.txt
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Dataset caches
+*.cache

@@ -1,0 +1,10 @@
+# Dataset configuration template (modify paths for your dataset)
+# Single-class maize tassel detection example:
+path: /path/to/your/dataset   # dataset root directory
+train: images/train
+val: images/val
+test: images/test
+
+nc: 1
+names:
+  0: tassel
